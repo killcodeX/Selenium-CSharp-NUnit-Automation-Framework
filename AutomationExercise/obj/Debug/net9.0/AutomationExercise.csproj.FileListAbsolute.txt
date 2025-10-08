@@ -1,0 +1,6 @@
+d:\Projects\Selenium-CSharp-NUnit-Automation-Framework\AutomationExercise\obj\Debug\net9.0\AutomationExercise.csproj.AssemblyReference.cache
+d:\Projects\Selenium-CSharp-NUnit-Automation-Framework\AutomationExercise\obj\Debug\net9.0\AutomationExercise.GeneratedMSBuildEditorConfig.editorconfig
+d:\Projects\Selenium-CSharp-NUnit-Automation-Framework\AutomationExercise\obj\Debug\net9.0\AutomationExercise.AssemblyInfoInputs.cache
+d:\Projects\Selenium-CSharp-NUnit-Automation-Framework\AutomationExercise\obj\Debug\net9.0\AutomationExercise.AssemblyInfo.cs
+d:\Projects\Selenium-CSharp-NUnit-Automation-Framework\AutomationExercise\obj\Debug\net9.0\AutomationExercise.csproj.CoreCompileInputs.cache
+d:\Projects\Selenium-CSharp-NUnit-Automation-Framework\AutomationExercise\obj\Debug\net9.0\AutomationExercise.sourcelink.json
