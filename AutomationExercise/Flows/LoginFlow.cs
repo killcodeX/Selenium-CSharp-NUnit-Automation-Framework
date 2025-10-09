@@ -1,4 +1,6 @@
 using OpenQA.Selenium;
+using AutomationExercise.Pages;
+using AutomationExercise.TestData;
 
 // Flow case 1
 

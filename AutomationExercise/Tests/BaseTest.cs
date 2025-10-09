@@ -1,10 +1,7 @@
-using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using NUnit.Framework;
-using SeleniumExtras.WaitHelpers;
-using OpenQA.Selenium.Support.UI;
+using NUnit.Framework.Interfaces; // Add this for TestStatus
 
-namespace AutomationExercise
+namespace AutomationExercise.Tests
 {
     public class BaseTest
     {
@@ -21,6 +18,27 @@ namespace AutomationExercise
         [TearDown]
         public void conclusion()
         {
+
+            var testName = TestContext.CurrentContext.Test.Name;
+            var testStatus = TestContext.CurrentContext.Result.Outcome.Status;
+
+            Console.WriteLine("\n" + new string('=', 60));
+            Console.WriteLine($"📋 Test: {testName}");
+            Console.WriteLine($"📊 Status: {testStatus}");
+            Console.WriteLine(new string('=', 60));
+
+            if (testStatus == TestStatus.Failed)
+            {
+                Console.WriteLine("❌ Test FAILED - Browser will stay open for 15 seconds");
+                Thread.Sleep(15000);
+            }
+            else
+            {
+                Console.WriteLine("✅ Test PASSED - Browser will stay open for 5 seconds");
+                Thread.Sleep(5000);
+            }
+
+            Console.WriteLine("🔚 Closing browser...");
             if (driver != null)
             {
                 driver.Quit();
