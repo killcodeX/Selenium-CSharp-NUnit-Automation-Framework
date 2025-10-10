@@ -30,12 +30,17 @@ namespace AutomationExercise.Pages
         // In BasePage.cs - Make it flexible
         public bool IsElementVisible(By locator)
         {
+            //Console.WriteLine("I am in IsElementVisible");
             try
             {
                 return wait.Until(ExpectedConditions.ElementIsVisible(locator)).Displayed;
             }
-            catch (WebDriverTimeoutException)
+            catch (WebDriverTimeoutException ex)
             {
+                Console.WriteLine($"[ERROR] Element not visible");
+                Console.WriteLine($"Locator: {locator}");
+                Console.WriteLine($"Message: {ex.Message}");
+                Console.WriteLine($"Stack Trace: {ex.StackTrace}");
                 return false;
             }
         }
@@ -45,10 +50,19 @@ namespace AutomationExercise.Pages
         {
             try
             {
-                return wait.Until(driver => driver.Url.Contains(expectedUrl));
+                Console.WriteLine($"[INFO] Checking URL contains: {expectedUrl}");
+                Console.WriteLine($"[INFO] Current URL: {webDriver.Url}");
+
+                wait.Until(ExpectedConditions.UrlContains(expectedUrl));
+
+                Console.WriteLine($"[SUCCESS] URL verification passed!");
+                return true;
             }
-            catch (WebDriverTimeoutException)
+            catch (WebDriverTimeoutException ex)
             {
+                Console.WriteLine($"[ERROR] URL verification failed");
+                Console.WriteLine($"Expected: {expectedUrl}");
+                Console.WriteLine($"Actual: {webDriver.Url}");
                 return false;
             }
         }

@@ -29,8 +29,8 @@ namespace AutomationExercise.Tests
 
             if (testStatus == TestStatus.Failed)
             {
-                Console.WriteLine("❌ Test FAILED - Browser will stay open for 15 seconds");
-                Thread.Sleep(15000);
+                Console.WriteLine("❌ Test FAILED - Browser will stay open for 5 seconds");
+                Thread.Sleep(5000);
             }
             else
             {

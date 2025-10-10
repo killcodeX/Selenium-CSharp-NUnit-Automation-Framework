@@ -22,15 +22,15 @@ namespace AutomationExercise.Pages
             return this;
         }
 
-        public SignupPage ClickLogin()
+        public RegisterPage ClickSignup()
         {
             ClickElement(submitBtn);
-            return this;
+            return new RegisterPage(webDriver, 10);
         }
 
-        public bool IsRegistrationSuccessfull()
+        public bool IsOnSignupPage()
         {
-            return IsPageUrlCorrect("https://automationexercise.com/signup");
+            return IsPageUrlCorrect("https://automationexercise.com/login");
         }
     }
 }

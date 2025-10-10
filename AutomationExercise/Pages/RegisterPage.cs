@@ -4,7 +4,7 @@ namespace AutomationExercise.Pages
 {
     public class RegisterPage : BasePage
     {
-        private By titleOpt = By.CssSelector("input[id='id_gender1']");
+
         private By password = By.CssSelector("input[data-qa='password']");
         private By dobDay = By.CssSelector("select[data-qa='days']");
         private By dobMonth = By.CssSelector("select[data-qa='months']");
@@ -23,12 +23,13 @@ namespace AutomationExercise.Pages
 
         public RegisterPage(IWebDriver driver, int delay) : base(driver, delay) { }
 
-        public bool IsRegistrationSuccessfull()
+        public bool IsOnRegistrationPage()
         {
+            //return IsElementVisible(By.Id("form"));
             return IsPageUrlCorrect("https://automationexercise.com/signup");
         }
 
-        public RegisterPage ChooseTitle()
+        public RegisterPage ChooseTitle(By titleOpt)
         {
             SelectRadioOption(titleOpt);
             return this;
@@ -112,10 +113,10 @@ namespace AutomationExercise.Pages
             return this;
         }
 
-        public RegisterPage CreateAccount()
+        public AccountCreatedPage ClickCreateAccount()
         {
             ClickElement(createAccBtn);
-            return this;
+            return new AccountCreatedPage(webDriver, 10);
         }
     }
 }

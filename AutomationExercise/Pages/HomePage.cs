@@ -23,9 +23,16 @@ namespace AutomationExercise.Pages
         }
 
         // Step 3: Click Signup/Login
-        public void ClickSignupLogin()
+        public SignupPage ClickSignupLogin()
         {
             ClickElement(signupLoginButton);
+            return new SignupPage(webDriver, 10);
+        }
+
+        // Optional: Check if on home page
+        public bool IsOnHomePage()
+        {
+            return IsPageUrlCorrect("https://automationexercise.com/");
         }
     }
 }
