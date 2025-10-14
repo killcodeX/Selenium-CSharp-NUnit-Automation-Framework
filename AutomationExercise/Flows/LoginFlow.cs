@@ -7,46 +7,78 @@ using AutomationExercise.TestData;
 public class LoginFlow
 {
     private IWebDriver driver;
-    private LoginPage loginPage;
     private int delay;
 
     public LoginFlow(IWebDriver driver, int delay = 20)
     {
         this.driver = driver;
         this.delay = delay;
-        BasePage basePage = new BasePage(this.driver, delay);
-        LoginPage loginPage = new LoginPage(this.driver, delay);
     }
 
-    /**
-    ** Step 1: Launch browser
-    ** Step 2: Navigate to url 'http://automationexercise.com'
-    ** Step 3: Verify that home page is visible successfully
-    ** Step 4: Click on 'Signup / Login' button
-    **/
-    public void InitialStep()
-    {
-        driver.Navigate().GoToUrl("http://automationexercise.com");
-
-    }
-    /**
-        ** Step 5:  Verify 'New User Signup!' is visible
-        ** Step 6: Enter name and email address
-        ** Step 7: Click 'Signup' button
-        **/
     public bool ExecuteLoginFlow(string email, string password)
     {
-        // Navigate to login page
-        driver.Navigate().GoToUrl("http://automationexercise.com/login");
+        try
+        {
+            // Step 1-2: Navigate to home and verify
+            var homePage = new HomePage(driver, delay);
+            homePage.NavigateToHome();
 
-        // Perform login using fluent pattern
-        loginPage
-            .EnterEmailValue(email)
-            .EnterPasswordValue(password)
-            .ClickLogin();
+            if (!homePage.IsHomePageVisible())
+            {
+                Console.WriteLine("[ERROR] Home page is not visible");
+                return false;
+            }
+            Console.WriteLine("[SUCCESS] Home page is visible");
 
-        // Verify login success
-        //return loginPage.IsLoginSuccessful();
-        return true;
+            // Step 3: Click Signup/Login
+            var loginPage = homePage.ClickSignupLoginForLogin();
+
+            // Verify we're on login page
+            if (!loginPage.IsOnLoginPage())
+            {
+                Console.WriteLine("[ERROR] Not on login page");
+                return false;
+            }
+            Console.WriteLine("[SUCCESS] On login page");
+
+            // Step 4: Enter credentials and click login
+            loginPage
+                .EnterEmailValue(email)
+                .EnterPasswordValue(password)
+                .ClickLogin();
+
+            // Wait for page to process
+            Thread.Sleep(1500); // Give time for login to process
+
+            // Step 5: Check if login was successful
+            bool isSuccessful = loginPage.IsLoginSuccessful();
+
+            if (isSuccessful)
+            {
+                Console.WriteLine("[SUCCESS] Login successful - redirected from login page");
+            }
+            else
+            {
+                Console.WriteLine("[ERROR] Login failed");
+
+                if (loginPage.IsErrorMessageDisplayed())
+                {
+                    string errorMsg = loginPage.GetErrorMessageText();
+                    Console.WriteLine($"[ERROR] Error message displayed: {errorMsg}");
+                }
+
+                if (loginPage.IsOnLoginPage())
+                {
+                    Console.WriteLine("[ERROR] Still on login page after login attempt");
+                }
+            }
+
+            return isSuccessful;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[EXCEPTION] Login flow failed: {ex.Message}");
+            return false;
+        }
     }
 }

@@ -79,6 +79,28 @@ namespace AutomationExercise.Pages
             var dropdown = new SelectElement(dropElem);
             dropdown.SelectByValue(value);
         }
+
+        public string GetText(By locator)
+        {
+            try
+            {
+                // Wait for element to be visible
+                var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(10));
+                var element = wait.Until(driver =>
+                {
+                    var el = driver.FindElement(locator);
+                    return el.Displayed ? el : null;
+                });
+
+                // Get the text
+                return element.Text;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting text from element: {ex.Message}");
+                return string.Empty;
+            }
+        }
     }
 }
 

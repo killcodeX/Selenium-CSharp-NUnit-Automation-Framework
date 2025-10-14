@@ -30,7 +30,7 @@ namespace AutomationExercise.Flows
             Console.WriteLine("[SUCCESS] Home page is visible");
 
             // Step 3: Click Signup/Login - This returns SignupPage
-            var signupPage = homePage.ClickSignupLogin();
+            var signupPage = homePage.ClickSignupLoginForSignup();
 
             // Verify we're on signup page
             if (!signupPage.IsOnSignupPage())

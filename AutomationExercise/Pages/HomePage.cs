@@ -16,6 +16,12 @@ namespace AutomationExercise.Pages
             webDriver.Navigate().GoToUrl("https://automationexercise.com/");
         }
 
+        // Optional: Check if on home page
+        public bool IsOnHomePage()
+        {
+            return IsPageUrlCorrect("https://automationexercise.com/");
+        }
+
         // Step 2: Verify home page visible
         public bool IsHomePageVisible()
         {
@@ -23,16 +29,17 @@ namespace AutomationExercise.Pages
         }
 
         // Step 3: Click Signup/Login
-        public SignupPage ClickSignupLogin()
+        public SignupPage ClickSignupLoginForSignup()
         {
             ClickElement(signupLoginButton);
             return new SignupPage(webDriver, 10);
         }
 
-        // Optional: Check if on home page
-        public bool IsOnHomePage()
+        // For Login flow
+        public LoginPage ClickSignupLoginForLogin()
         {
-            return IsPageUrlCorrect("https://automationexercise.com/");
+            ClickElement(signupLoginButton);
+            return new LoginPage(webDriver, 10);
         }
     }
 }
