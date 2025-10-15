@@ -10,7 +10,7 @@ namespace AutomationExercise.Utils
             {
                 // Get project root directory
                 string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-                string projectRoot = Directory.GetParent(baseDirectory).Parent.Parent.Parent.FullName;
+                string projectRoot = Directory.GetParent(baseDirectory)?.Parent?.Parent?.Parent?.FullName;
 
                 // Create Screenshots directory in project root
                 string screenshotDir = Path.Combine(projectRoot, "Screenshots");

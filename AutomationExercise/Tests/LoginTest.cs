@@ -113,5 +113,20 @@ namespace AutomationExercise.Tests
 
             Assert.IsFalse(result, "Login should fail with empty credentials");
         }
+
+        [Test, Order(5), Category("Screenshot Test")]
+        [Description("This test intentionally fails to verify screenshot capture")]
+        public void TC05_TestScreenshotCapture_ShouldFail()
+        {
+            ExtentTestManager.LogInfo("Step 1: Navigate to Google to get a page for screenshot");
+
+            driver.Navigate().GoToUrl("https://www.google.com");
+            ExtentTestManager.LogInfo("Step 2: Navigated to Google");
+
+            ExtentTestManager.LogFail("Step 3: Intentional failure to test screenshot capture");
+
+            // This will fail and capture a screenshot
+            Assert.Fail("⚠️ This test intentionally fails to verify screenshot capture works! ⚠️");
+        }
     }
 }

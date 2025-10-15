@@ -23,7 +23,8 @@ namespace AutomationExercise.Utils
 
                 // Create report file with timestamp
                 string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-                reportPath = Path.Combine(reportDir, $"TestReport_{timestamp}.html");
+                string reportFileName = $"TestReport_{timestamp}.html";
+                reportPath = Path.Combine(reportDir, reportFileName);
                 Console.WriteLine($"📄 Report File: {reportPath}");
 
                 // Initialize HTML reporter

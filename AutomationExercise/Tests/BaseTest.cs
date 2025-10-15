@@ -34,9 +34,9 @@ namespace AutomationExercise.Tests
                     Console.WriteLine($"Start Time: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
                     Console.WriteLine();
                     Console.WriteLine("📊 Initializing ExtentReports...");
-
+                    
                     var extent = ExtentManager.GetExtent();
-
+                    
                     Console.WriteLine("✅ ExtentReports initialized successfully\n");
                     isReportInitialized = true;
                 }
@@ -52,10 +52,10 @@ namespace AutomationExercise.Tests
                 // Create test in report
                 string testName = TestContext.CurrentContext.Test.Name;
                 string testDescription = TestContext.CurrentContext.Test.Properties.Get("Description")?.ToString() ?? "";
-
+                
                 test = ExtentTestManager.CreateTest(testName, testDescription);
                 Console.WriteLine($"✅ Test created in report: {testName}");
-
+                
                 ExtentTestManager.LogInfo($"Test Started: {testName}");
 
                 // Initialize WebDriver
@@ -95,24 +95,33 @@ namespace AutomationExercise.Tests
                     case TestStatus.Failed:
                         Console.WriteLine("❌ Test FAILED");
                         ExtentTestManager.LogFail($"Test Failed: {errorMessage}");
-
+                        
                         // Capture screenshot on failure
                         Console.WriteLine("📸 Capturing screenshot...");
                         string screenshotPath = ScreenshotHelper.CaptureScreenshot(
-                            driver,
+                            driver, 
                             TestContext.CurrentContext.Test.Name
                         );
-
+                        
                         if (!string.IsNullOrEmpty(screenshotPath))
                         {
                             Console.WriteLine($"✅ Screenshot saved: {screenshotPath}");
-                            test.AddScreenCaptureFromPath(screenshotPath, "Failure Screenshot");
+                            
+                            // Convert to relative path for HTML report
+                            // Report is in: Reports/TestReport.html
+                            // Screenshot is in: Screenshots/Test.png
+                            // Relative path should be: ../Screenshots/Test.png
+                            string screenshotFileName = Path.GetFileName(screenshotPath);
+                            string relativeScreenshotPath = $"../Screenshots/{screenshotFileName}";
+                            
+                            test.AddScreenCaptureFromPath(relativeScreenshotPath, "Failure Screenshot");
+                            Console.WriteLine($"📎 Screenshot attached to report");
                         }
                         else
                         {
                             Console.WriteLine("⚠️  Screenshot capture failed");
                         }
-
+                        
                         if (!string.IsNullOrEmpty(stackTrace))
                         {
                             ExtentTestManager.LogInfo($"Stack Trace: {stackTrace}");
@@ -142,7 +151,7 @@ namespace AutomationExercise.Tests
                 {
                     // Get total test count from TestContext
                     var context = TestContext.CurrentContext;
-
+                    
                     // If we can't determine total tests, flush after a delay
                     if (testCount >= 4) // Update this number to match your total test count
                     {
@@ -165,9 +174,9 @@ namespace AutomationExercise.Tests
             Console.WriteLine("════════════════════════════════════════════════════════════════");
             Console.WriteLine("           📊 GENERATING TEST REPORT");
             Console.WriteLine("════════════════════════════════════════════════════════════════");
-
+            
             ExtentManager.FlushReport();
-
+            
             Console.WriteLine($"End Time: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
             Console.WriteLine("════════════════════════════════════════════════════════════════");
             Console.WriteLine("           ✅ TEST SUITE EXECUTION COMPLETED");
