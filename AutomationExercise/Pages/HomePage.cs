@@ -7,6 +7,9 @@ namespace AutomationExercise.Pages
         // Locators
         private By sliderCarousel = By.Id("slider-carousel");
         private By signupLoginButton = By.LinkText("Signup / Login");
+        private By loggedInAsText = By.XPath("//a[contains(text(), 'Logged in as')]");
+        private By logoutButton = By.LinkText("Logout");
+        private By deleteAccButton = By.LinkText("Delete Account");
 
         public HomePage(IWebDriver driver, int delay) : base(driver, delay) { }
 
@@ -40,6 +43,37 @@ namespace AutomationExercise.Pages
         {
             ClickElement(signupLoginButton);
             return new LoginPage(webDriver, 10);
+        }
+
+        // for logout
+        public LoginPage LogoutAccount()
+        {
+            if (IsElementVisible(logoutButton))
+            {
+                ClickElement(logoutButton);
+            }
+
+            // Return login page regardless - either we just logged out, 
+            // or we were already on the login page
+            return new LoginPage(webDriver, 10);
+        }
+
+        // for delete account
+        public LoginPage DeleteAccount()
+        {
+            if (IsElementVisible(deleteAccButton))
+            {
+                ClickElement(deleteAccButton);
+            }
+
+            // Return login page regardless - either we just logged out, 
+            // or we were already on the login page
+            return new LoginPage(webDriver, 10);
+        }
+
+        public bool IsLoggedInAsVisible()
+        {
+            return IsElementVisible(loggedInAsText); // Check the "Logged in as" element
         }
     }
 }
