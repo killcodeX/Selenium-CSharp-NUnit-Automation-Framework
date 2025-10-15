@@ -56,7 +56,7 @@
             },
             "ExtentReports": {
               "target": "Package",
-              "version": "[5.0.2, )"
+              "version": "[4.1.0, )"
             },
             "Microsoft.Extensions.Configuration": {
               "target": "Package",

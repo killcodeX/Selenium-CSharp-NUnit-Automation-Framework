@@ -1,45 +1,117 @@
-
+using NUnit.Framework;
+using AutomationExercise.Flows;
+using AutomationExercise.Utils;
 
 namespace AutomationExercise.Tests
 {
-    [TestFixture] // Marks this as a test class
+    [TestFixture]
     [Order(2)]
-    public class LoginTests : BaseTest // Inherit from BaseTest
+    public class LoginTests : BaseTest
     {
         private LoginFlow loginFlow;
 
-        [SetUp] // Runs AFTER BaseTest [SetUp]
+        [SetUp]
         public void TestSetup()
         {
-            // Create flow objects
-            // driver is available because BaseTest already created it
-            loginFlow = new LoginFlow(driver);
+            loginFlow = new LoginFlow(driver, 10);
+            ExtentTestManager.LogInfo("Login flow initialized");
         }
-        [Test, Order(1)]
-        [Category("Smoke")]
-        [Description("Test Case 1: Login with valid credentials")]
-        public void TC02_LoginWithValidCredentials()
+
+        [Test, Order(1), Category("Smoke")]
+        [Description("Verify user can login with valid credentials")]
+        public void TC01_LoginWithValidCredentials()
         {
-            // 2. Run flow
-            bool result = loginFlow.ExecuteLoginFlow("testuser82351469@hotmail.com", "Test@123");
+            // Test data
+            string email = "testuser82351469@hotmail.com";
+            string password = "Test@123";
 
-            // 3. Assert
-            Assert.IsTrue(result);
+            ExtentTestManager.LogInfo("=== Test Steps ===");
+            ExtentTestManager.LogInfo("Step 1: Navigate to login page");
+            ExtentTestManager.LogInfo($"Step 2: Enter email: {email}");
+            ExtentTestManager.LogInfo("Step 3: Enter password: ********");
+            ExtentTestManager.LogInfo("Step 4: Click login button");
+
+            // Execute login
+            bool result = loginFlow.ExecuteLoginFlow(email, password);
+
+            ExtentTestManager.LogInfo("Step 5: Verify login successful");
+
+            // Assert and log result
+            if (result)
+            {
+                ExtentTestManager.LogPass("✓ User logged in successfully");
+            }
+            else
+            {
+                ExtentTestManager.LogFail("✗ Login failed with valid credentials");
+            }
+
+            Assert.IsTrue(result, "Login should succeed with valid credentials");
         }
 
-        [Test, Order(1)]
-        [Category("Smoke")]
-        [Description("Test Case 2: Login with Invalid credentials")]
+        [Test, Order(2), Category("Smoke")]
+        [Description("Verify user cannot login with invalid credentials")]
         public void TC02_LoginWithInvalidCredentials()
         {
-            // 2. Run flow
-            bool result = loginFlow.ExecuteLoginFlow("testuser82351469@hotmail.com", "Test");
+            string email = "testuser82351469@hotmail.com";
+            string password = "WrongPassword123";
 
-            // 3. Assert
-            Assert.IsTrue(!result);
+            ExtentTestManager.LogInfo("=== Test Steps ===");
+            ExtentTestManager.LogInfo("Step 1: Navigate to login page");
+            ExtentTestManager.LogInfo($"Step 2: Enter email: {email}");
+            ExtentTestManager.LogInfo($"Step 3: Enter wrong password: {password}");
+            ExtentTestManager.LogInfo("Step 4: Click login button");
+
+            bool result = loginFlow.ExecuteLoginFlow(email, password);
+
+            ExtentTestManager.LogInfo("Step 5: Verify login fails");
+
+            if (!result)
+            {
+                ExtentTestManager.LogPass("✓ Login correctly failed with invalid credentials");
+            }
+            else
+            {
+                ExtentTestManager.LogFail("✗ Login should not succeed with invalid credentials");
+            }
+
+            Assert.IsFalse(result, "Login should fail with invalid credentials");
+        }
+
+        [Test, Order(3), Category("Regression")]
+        [Description("Verify error message is displayed for invalid login")]
+        public void TC03_VerifyErrorMessageForInvalidLogin()
+        {
+            ExtentTestManager.LogInfo("Step 1: Attempt login with invalid credentials");
+
+            bool result = loginFlow.ExecuteLoginFlow("invalid@test.com", "WrongPass");
+
+            ExtentTestManager.LogInfo("Step 2: Check for error message");
+
+            if (!result)
+            {
+                ExtentTestManager.LogPass("✓ Error displayed as expected");
+            }
+
+            Assert.IsFalse(result);
+        }
+
+        [Test, Order(4), Category("Regression")]
+        [Description("Verify login with empty credentials fails")]
+        public void TC04_LoginWithEmptyCredentials()
+        {
+            ExtentTestManager.LogInfo("Step 1: Attempt login with empty credentials");
+
+            bool result = loginFlow.ExecuteLoginFlow("", "");
+
+            ExtentTestManager.LogInfo("Step 2: Verify login fails");
+
+            if (!result)
+            {
+                ExtentTestManager.LogPass("✓ Login correctly failed with empty credentials");
+            }
+
+            Assert.IsFalse(result, "Login should fail with empty credentials");
         }
     }
-
-
-
 }
