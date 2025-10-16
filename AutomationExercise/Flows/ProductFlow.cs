@@ -1,0 +1,54 @@
+using OpenQA.Selenium;
+using AutomationExercise.Pages;
+
+namespace AutomationExercise.Flows
+{
+    public class ProductFlow
+    {
+        private IWebDriver driver;
+        private int delay;
+
+        public ProductFlow(IWebDriver driver, int delay = 20)
+        {
+            this.driver = driver;
+            this.delay = delay;
+        }
+        /**
+        ** Step 1: Verify that home page is visible successfully
+        ** Step 2: Click on 'Products' button
+        ** Step 3: Verify user is navigated to ALL PRODUCTS page successfully
+        ** Step 4: The products list is visible
+        ** Step 5: Click on 'View Product' of first product
+        ** Step 6: User is landed to product detail page
+        ** Step 7: Verify that detail detail is visible: product name, category, price, availability, condition, brand
+        **/
+        public bool ExecuteVerifyAllProductsAndProductDetailPage()
+        {
+            var homePage = new HomePage(driver, delay);
+            homePage.NavigateToHome();
+
+            if (!homePage.IsHomePageVisible())
+            {
+                Console.WriteLine("[ERROR] Home page is not visible");
+                return false;
+            }
+            Console.WriteLine("[SUCCESS] Home page is visible");
+
+            var allProductPage = homePage.NavigateToAllProducts();
+
+            if (!allProductPage.IsAllProductsPageVisible())
+            {
+                Console.WriteLine("[ERROR] Home page is not visible");
+                return false;
+            }
+
+            Console.WriteLine("[SUCCESS] All product page is visible");
+
+            allProductPage.ClickFirstProductViewButton();
+
+            Thread.Sleep(4000);
+
+            return true;
+        }
+    }
+}

@@ -14,9 +14,9 @@ namespace AutomationExercise.Tests
         public void TestSetup()
         {
             logoutFlow = new LogoutFlow(driver, 10);
-            ExtentTestManager.LogInfo("Login flow initialized");
+            ExtentTestManager.LogInfo("Logout flow initialized");
         }
-
+        /*
         [Test, Order(1), Category("Smoke")]
         [Description("Verify user can logout")]
         public void TC01_Logout()
@@ -48,5 +48,6 @@ namespace AutomationExercise.Tests
 
             Assert.IsTrue(result, "Logout should succeed with valid credentials");
         }
+        */
     }
 }

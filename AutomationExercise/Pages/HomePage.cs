@@ -8,6 +8,7 @@ namespace AutomationExercise.Pages
         private By sliderCarousel = By.Id("slider-carousel");
         private By signupLoginButton = By.LinkText("Signup / Login");
         private By loggedInAsText = By.XPath("//a[contains(text(), 'Logged in as')]");
+        private By productButton = By.CssSelector("a[href*='products']");
         private By logoutButton = By.LinkText("Logout");
         private By deleteAccButton = By.LinkText("Delete Account");
 
@@ -74,6 +75,12 @@ namespace AutomationExercise.Pages
         public bool IsLoggedInAsVisible()
         {
             return IsElementVisible(loggedInAsText); // Check the "Logged in as" element
+        }
+
+        public AllProductsPage NavigateToAllProducts()
+        {
+            ClickElement(productButton);
+            return new AllProductsPage(webDriver, 10);
         }
     }
 }
