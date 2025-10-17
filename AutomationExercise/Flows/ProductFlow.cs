@@ -118,5 +118,49 @@ namespace AutomationExercise.Flows
 
             return true;
         }
+        /**
+            ** Step 1: Verify that home page is visible successfully
+            ** Step 2: Click on 'Products' button
+            ** Step 3: Verify user is navigated to ALL PRODUCTS page successfully
+            ** Step 4: Enter product name in search input and click search button
+            ** Step 5: Verify 'SEARCHED PRODUCTS' is visible
+            ** Step 6: Verify all the products related to search are visible
+        **/
+        public bool ExecuteSearchProduct(string value)
+        {
+            var homePage = new HomePage(driver, delay);
+            homePage.NavigateToHome();
+
+            if (!homePage.IsHomePageVisible())
+            {
+                Console.WriteLine("[ERROR] Home page is not visible");
+                return false;
+            }
+            Console.WriteLine("[SUCCESS] Home page is visible");
+
+            var allProductPage = homePage.NavigateToAllProducts();
+
+            if (!allProductPage.IsAllProductsPageVisible())
+            {
+                Console.WriteLine("[ERROR] Home page is not visible");
+                return false;
+            }
+
+            Console.WriteLine("[SUCCESS] All product page is visible");
+
+            allProductPage.SearchProduct(value).ClickSearchButton();
+
+            if (!allProductPage.IsSearchResultsVisible())
+            {
+                Console.WriteLine("[ERROR] Search product is not visible");
+                return false;
+            }
+
+            Console.WriteLine("[SUCCESS] Search product page is visible");
+
+            Thread.Sleep(4000);
+
+            return true;
+        }
     }
 }

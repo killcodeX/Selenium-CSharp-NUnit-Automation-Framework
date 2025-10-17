@@ -42,5 +42,33 @@ namespace AutomationExercise.Tests
 
             Assert.IsTrue(result, "All Product page visible");
         }
+
+        [Test, Order(2), Category("Smoke")]
+        [Description("Verify search product page")]
+        public void TC02_VerifySearchProduct()
+        {
+            ExtentTestManager.LogInfo("=== Test Steps ===");
+            ExtentTestManager.LogInfo("Step 1: Navigate to home page");
+            ExtentTestManager.LogInfo("Step 2: Verify that home page is visible successfully");
+            ExtentTestManager.LogInfo("Step 3: Click on 'Products' button");
+            ExtentTestManager.LogInfo("Step 4: Verify user is navigated to ALL PRODUCTS page successfully");
+            ExtentTestManager.LogInfo("Step 5: Enter product name in search input and click search button");
+            ExtentTestManager.LogInfo("Step 6: Verify 'SEARCHED PRODUCTS' is visible");
+            ExtentTestManager.LogInfo("Step 7: Verify all the products related to search are visible");
+
+            bool result = productFlow.ExecuteSearchProduct("Men Tshirt");
+
+            // Assert and log result
+            if (result)
+            {
+                ExtentTestManager.LogPass("✓ Searched product visible");
+            }
+            else
+            {
+                ExtentTestManager.LogFail("✗ Searched product not visible");
+            }
+
+            Assert.IsTrue(result, "Searched product visible");
+        }
     }
 }
