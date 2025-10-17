@@ -16,11 +16,10 @@ namespace AutomationExercise.Pages
             return IsElementVisible(productPageTitle);
         }
 
-        public void ClickFirstProductViewButton()
+        public ProductPage ClickFirstProductViewButton()
         {
             WebDriverWait wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(10));
             var productList = wait.Until(d => d.FindElements(allViewProductButtons));
-            Console.WriteLine($"✅ Clicked on first product's View Product button ---{productList}");
             //checking product
             if (productList.Count > 0)
             {
@@ -33,6 +32,8 @@ namespace AutomationExercise.Pages
             {
                 throw new NoSuchElementException("No View Product buttons found");
             }
+
+            return new ProductPage(webDriver, 10);
         }
     }
 }
