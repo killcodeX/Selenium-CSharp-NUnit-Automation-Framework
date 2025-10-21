@@ -1,5 +1,6 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using OpenQA.Selenium.Interactions;
 using SeleniumExtras.WaitHelpers;
 
 namespace AutomationExercise.Pages
@@ -8,9 +9,12 @@ namespace AutomationExercise.Pages
     {
         protected IWebDriver webDriver;
         protected WebDriverWait wait;
+        protected Actions actions;
         public BasePage(IWebDriver driver, int delay)
         {
             webDriver = driver;
+            // Initialize Actions class for advanced interactions
+            actions = new Actions(driver);
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(delay));
         }
 
@@ -99,6 +103,21 @@ namespace AutomationExercise.Pages
             {
                 Console.WriteLine($"Error getting text from element: {ex.Message}");
                 return string.Empty;
+            }
+        }
+
+        public void HoverAndClick(By element)
+        {
+            try
+            {
+                // Fix: Wait for element to be clickable (it already has the element)
+                wait.Until(ExpectedConditions.ElementIsVisible(element));
+                IWebElement hoverElem = webDriver.FindElement(element);
+                actions.MoveToElement(hoverElem).Click().Perform();
+            }
+            catch (WebDriverTimeoutException ex)
+            {
+                Console.WriteLine($"HoverAndClick error: {ex.Message}");
             }
         }
     }

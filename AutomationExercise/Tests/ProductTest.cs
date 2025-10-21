@@ -17,7 +17,7 @@ namespace AutomationExercise.Tests
             productFlow = new ProductFlow(driver, 10);
             ExtentTestManager.LogInfo("All Products flow initialized");
         }
-
+        /**
         [Test, Order(1), Category("Smoke")]
         [Description("Verify all product page")]
         public void TC01_VerifyAllProductAndProductDetailPage()
@@ -57,6 +57,37 @@ namespace AutomationExercise.Tests
             ExtentTestManager.LogInfo("Step 7: Verify all the products related to search are visible");
 
             bool result = productFlow.ExecuteSearchProduct("Men Tshirt");
+
+            // Assert and log result
+            if (result)
+            {
+                ExtentTestManager.LogPass("✓ Searched product visible");
+            }
+            else
+            {
+                ExtentTestManager.LogFail("✗ Searched product not visible");
+            }
+
+            Assert.IsTrue(result, "Searched product visible");
+        }
+        **/
+        [Test, Order(3), Category("Smoke")]
+        [Description("Add Products in Cart")]
+        public void TC03_AddToProduct()
+        {
+            ExtentTestManager.LogInfo("=== Test Steps ===");
+            ExtentTestManager.LogInfo("Step 1: Navigate to home page");
+            ExtentTestManager.LogInfo("Step 2: Verify that home page is visible successfully");
+            ExtentTestManager.LogInfo("Step 3: Click on 'Products' button");
+            ExtentTestManager.LogInfo("Step 4: Verify user is navigated to ALL PRODUCTS page successfully");
+            ExtentTestManager.LogInfo("Step 5: Hover over first product and click 'Add to cart'");
+            ExtentTestManager.LogInfo("Step 6: Click 'Continue Shopping' button");
+            ExtentTestManager.LogInfo("Step 7: Hover over second product and click 'Add to cart'");
+            ExtentTestManager.LogInfo("Step 8: Click 'View Cart' button");
+            ExtentTestManager.LogInfo("Step 9: Verify both products are added to Cart");
+            ExtentTestManager.LogInfo("Step 10: Verify their prices, quantity and total price");
+
+            bool result = productFlow.ExecuteAddProductsInCart();
 
             // Assert and log result
             if (result)

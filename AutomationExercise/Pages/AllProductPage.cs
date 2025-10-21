@@ -1,5 +1,6 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+
 using SeleniumExtras.WaitHelpers;
 
 namespace AutomationExercise.Pages
@@ -12,6 +13,7 @@ namespace AutomationExercise.Pages
         private By allViewProductButtons = By.CssSelector("a[href*='/product_details/']");
         private By searchProductInput = By.Id("search_product");
         private By searchProductButton = By.Id("submit_search");
+        private By cartButton = By.CssSelector("a[href*='view_cart']");
         public AllProductsPage(IWebDriver driver, int delay) : base(driver, delay) { }
 
         public bool IsAllProductsPageVisible()
@@ -67,6 +69,40 @@ namespace AutomationExercise.Pages
             WebDriverWait wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(10));
             wait.Until(d => d.Url.Contains("search="));
             return this;
+        }
+
+        public IList<IWebElement> FetchAllElement()
+        {
+            WebDriverWait wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(10));
+
+            // Wait and return the list of elements
+            return wait.Until(d =>
+            {
+                var elements = d.FindElements(allViewProductButtons);
+                return elements.Count > 0 ? elements : null;
+            });
+        }
+
+        public AllProductsPage AddToCartProduct(By Product)
+        {
+            WebDriverWait wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(10));
+            HoverAndClick(Product);
+
+            // Wait for the popup/modal to be visible
+            IWebElement popup = wait.Until(ExpectedConditions.ElementIsVisible(
+                By.XPath("//div[@class='modal-content']")
+            ));
+
+            // Click on Continue Shopping button
+            webDriver.FindElement(By.XPath("//button[text()='Continue Shopping']")).Click();
+
+            return this;
+        }
+
+        public CartPage NavigateToCartPage()
+        {
+            ClickElement(cartButton);
+            return new CartPage(webDriver, 10);
         }
     }
 }
